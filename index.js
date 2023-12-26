@@ -3,26 +3,26 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentPage = 1;
     const itemsPerPage = 10; // Adjust this based on your preference
 
-    // Appel de la fonction pour récupérer les données depuis le serveur
+    // Call the function to fetch data from the server
     fetchData(currentPage, itemsPerPage);
 });
 
 function fetchData(page, itemsPerPage) {
-    // Utiliser une requête AJAX pour récupérer les données depuis le serveur
-    // Ici, vous pourriez utiliser Fetch API ou XMLHttpRequest
+    // Use an AJAX request to fetch data from the server
 
-    // Exemple avec Fetch API
-    fetch(`http://localhost:3000/fetch_data?page=${page}&itemsPerPage=${itemsPerPage}`)
+    // Example using Fetch API
+    const serverUrl = window.config.SERVER_URL || 'http://localhost:3000'; // Use the environment variable if set, otherwise use a default value
+    fetch(`${serverUrl}/fetch_data?page=${page}&itemsPerPage=${itemsPerPage}`)
         .then(response => response.json())
         .then(data => {
-            // Appel de la fonction pour afficher les données dans le tableau
+            // Call the function to display data in the table
             displayData(data);
         })
-        .catch(error => console.error('Erreur lors de la récupération des données:', error));
+        .catch(error => console.error('Error fetching data:', error));
 }
 
 function displayData(data) {
-    // Création du tableau
+    // Create the table
     const tableContainer = document.getElementById('table-container');
     tableContainer.innerHTML = ''; // Clear the existing content
 
@@ -30,7 +30,7 @@ function displayData(data) {
     const thead = document.createElement('thead');
     const tbody = document.createElement('tbody');
 
-    // Création de l'en-tête du tableau
+    // Create the table header
     const headers = ['ID', 'Date', 'Humidity', 'Temperature'];
     const headerRow = document.createElement('tr');
     headers.forEach(headerText => {
@@ -41,7 +41,7 @@ function displayData(data) {
     thead.appendChild(headerRow);
     table.appendChild(thead);
 
-    // Remplissage du tableau avec les données
+    // Fill the table with data
     data.forEach(rowData => {
         const row = document.createElement('tr');
         Object.values(rowData).forEach(value => {
@@ -56,7 +56,7 @@ function displayData(data) {
     tableContainer.appendChild(table);
 }
 
-// Add pagination controls (you can customize this based on your UI)
+// Add pagination controls (customize based on your UI)
 function changePage(newPage) {
     const itemsPerPage = 10; // Adjust this based on your preference
     fetchData(newPage, itemsPerPage);

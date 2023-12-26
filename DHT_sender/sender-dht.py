@@ -1,17 +1,22 @@
 import Adafruit_DHT
 import time
 import mysql.connector
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 sensor = Adafruit_DHT.DHT22
-pin = 4  # GPIO pin where the data line is connected
+pin = int(os.getenv('GPIO_PIN', 4))  # GPIO pin where the data line is connected
 
 # MySQL Database Configuration
 db_config = {
-    'user': 'Pi',
-    'password': '123456',
-    'host': '192.168.243.84',
-    'database': 'temp',
-    'port': 3306  # Default MySQL port
+    'user': os.getenv('DB_USER', 'Pi'),  # Use the environment variable if set, otherwise use a default value
+    'password': os.getenv('DB_PASSWORD', '123456'),  # Use the environment variable if set, otherwise use a default value
+    'host': os.getenv('DB_HOST', '192.168.243.84'),  # Use the environment variable if set, otherwise use a default value
+    'database': os.getenv('DB_DATABASE', 'temp'),  # Use the environment variable if set, otherwise use a default value
+    'port': int(os.getenv('DB_PORT', 3306))  # Use the environment variable if set, otherwise use a default value
 }
 
 try:

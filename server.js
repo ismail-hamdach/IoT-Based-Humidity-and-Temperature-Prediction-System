@@ -1,42 +1,45 @@
+require('dotenv').config({ debug: true });
+
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql2/promise');
 const app = express();
-const port = 3000;
 
-// Configuration de la connexion à la base de données
+const port = process.env.PORT || 3000; // Use the environment variable
+
+// Database connection configuration
 const dbConfig = {
-    host: '192.168.165.84',
-    user: 'Pi',
-    password: '123456',
-    database: 'temp',
-    port: '3306'
+    host: process.env.DB_HOST , // Use the environment variable
+    user: process.env.DB_USER , // Use the environment variable
+    password: process.env.DB_PASSWORD , // Use the environment variable
+    database: process.env.DB_DATABASE , // Use the environment variable
+    port: process.env.DB_PORT // Use the environment variable
 };
 
 // Enable CORS for all routes
 app.use(cors());
 
-// Route pour récupérer les données
+// Route to fetch data
 app.get('/fetch_data', async (req, res) => {
     try {
-        // Connexion à la base de données
+        // Connect to the database
         const connection = await mysql.createConnection(dbConfig);
 
-        // Exécution de la requête SQL
-        const [rows] = await connection.execute('SELECT id, date, humidity, temperature FROM donnee');
+        // Execute the SQL query
+        const [rows] = await connection.execute(`SELECT id, date, humidity, temperature FROM ${process.env.DB_TABLE}`);
 
-        // Fermeture de la connexion à la base de données
+        // Close the database connection
         await connection.end();
 
-        // Envoi des données au format JSON
+        // Send data in JSON format
         res.json(rows);
     } catch (error) {
-        console.error('Erreur lors de la récupération des données:', error);
-        res.status(500).send('Erreur serveur');
+        console.error('Error fetching data:', error);
+        res.status(500).send('Server error');
     }
 });
 
-// Démarrage du serveur
+// Start the server
 app.listen(port, () => {
-    console.log(`Serveur en cours d'exécution sur le port ${port}`);
+    console.log(`Server is running on port ${port}`);
 });
