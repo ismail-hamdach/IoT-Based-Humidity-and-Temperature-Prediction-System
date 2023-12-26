@@ -58,5 +58,5 @@ if __name__ == "__main__":
     new_data_1 = pd.DataFrame({'year': [2023], 'month': [12], 'day': [30], 'temperature': [22]})
     make_prediction(model, new_data_1)
 
-    new_data_2 = pd.DataFrame({'year': [2023], 'month': [1], 'day': [1], 'temperature': [25]})
+    new_data_2 = pd.DataFrame({'year': [2024], 'month': [1], 'day': [1], 'temperature': [25]})
     make_prediction(model, new_data_2)
