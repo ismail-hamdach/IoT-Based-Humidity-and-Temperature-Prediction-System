@@ -8,17 +8,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function fetchData(page, itemsPerPage) {
-    // Use an AJAX request to fetch data from the server
+    // Display loading effect
+    const tableContainer = document.getElementById('table-container');
+    tableContainer.innerHTML = '<p>Loading...</p>';
 
-    // Example using Fetch API
-    const serverUrl = window.config.SERVER_URL || 'http://localhost:3000'; // Use the environment variable if set, otherwise use a default value
+    // Use an AJAX request to fetch data from the server
+    const serverUrl = window.config.SERVER_URL; // Use the environment variable if set, otherwise use a default value
     fetch(`${serverUrl}/fetch_data?page=${page}&itemsPerPage=${itemsPerPage}`)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                tableContainer.innerHTML = `<p class="error" >Network response was not ok: ${response.status}</p>`;
+                throw new Error(`Network response was not ok: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(data => {
             // Call the function to display data in the table
             displayData(data);
         })
-        .catch(error => console.error('Error fetching data:', error));
+        .catch(error => {
+            // Display error message
+            tableContainer.innerHTML = `<p>Error fetching data: ${error.message}</p>`;
+            console.error('Error fetching data:', error);
+        });
 }
 
 function displayData(data) {
