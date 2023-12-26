@@ -36,4 +36,5 @@ Our innovative project combines the power of Internet of Things (IoT) with data 
   - Node.js constructs robust endpoints to facilitate seamless communication, while the web application's frontend (HTML, CSS, JS) provides an engaging interface for users.
 
 ## Note
-Adjust .env and env.js files to match environment variables required.
+- Each application has its own documentation.
+- Adjust .env and env.js files to match environment variables required.
