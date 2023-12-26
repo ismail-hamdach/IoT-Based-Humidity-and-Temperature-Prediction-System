@@ -1,0 +1,24 @@
+# Dependency directories
+node_modules/
+
+# Optional: Logs and debugging files
+logs
+*.log
+npm-debug.log*
+
+# Optional: Environment variables
+.env
+
+# Optional: OS and IDE files
+.DS_Store
+Thumbs.db
+
+# Optional: Editor-specific files
+.vscode/
+.idea/
+
+# Optional: Compiled binary addons (if using native addons)
+build/
+
+# Optional: User-specific files
+npm-debug.log
